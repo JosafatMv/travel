@@ -1,10 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Image } from 'react-native-elements';
-import { RegisterForm } from '../components/account/registerForm';
+import { RegisterForm } from '../components/account/RegisterForm';
+
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export const RegisterScreen = () => {
 	return (
-		<View>
+		<KeyboardAwareScrollView>
 			<Image
 				source={require('../../assets/imagenes/messi.jpg')}
 				style={styles.logo}
@@ -12,7 +14,7 @@ export const RegisterScreen = () => {
 			<View style={styles.viewForm}>
 				<RegisterForm />
 			</View>
-		</View>
+		</KeyboardAwareScrollView>
 	);
 };
 

@@ -9,6 +9,7 @@ import { DetailsStack } from './DetailsStack';
 import { IndexStack } from './IndexStack';
 
 import { Button, Icon, ThemeProvider } from 'react-native-elements';
+import { ProfileStack } from './ProfileStack';
 
 // const Drawer = createDrawerNavigator();
 
@@ -58,9 +59,9 @@ export const AppNavigation = () => {
 			/>
 
 			<Tab.Screen
-				name='information'
-				component={InformationScreen}
-				options={{ title: 'Informacion', headerShown: true }}
+				name='profile'
+				component={ProfileStack}
+				options={{ title: 'Perfil' }}
 			/>
 		</Tab.Navigator>
 	);
@@ -70,15 +71,15 @@ const showIcons = (route, color, size) => {
 	let icon;
 
 	if (route.name === 'index') {
-		icon = 'home-circle';
+		icon = 'home-outline';
 	}
 
 	if (route.name === 'details') {
-		icon = 'account-circle';
+		icon = 'details';
 	}
 
-	if (route.name === 'information') {
-		icon = 'information';
+	if (route.name === 'profile') {
+		icon = 'account-outline';
 	}
 
 	return (
