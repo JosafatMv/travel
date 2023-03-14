@@ -10,6 +10,8 @@ import { IndexStack } from './IndexStack';
 
 import { Button, Icon, ThemeProvider } from 'react-native-elements';
 import { ProfileStack } from './ProfileStack';
+import { useEffect, useState } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 // const Drawer = createDrawerNavigator();
 
@@ -35,9 +37,18 @@ import { ProfileStack } from './ProfileStack';
 // 	);
 // };
 
-const Tab = createBottomTabNavigator();
 export const AppNavigation = () => {
-	return (
+	const Tab = createBottomTabNavigator();
+	const [session, setSession] = useState(null);
+
+	useEffect(() => {
+		const auth = getAuth();
+		onAuthStateChanged(auth, (user) => {
+			setSession(user ? true : false);
+		});
+	}, []);
+
+	return session ? (
 		<Tab.Navigator
 			screenOptions={({ route }) => ({
 				headerShown: false,
@@ -62,6 +73,21 @@ export const AppNavigation = () => {
 				name='profile'
 				component={ProfileStack}
 				options={{ title: 'Perfil' }}
+			/>
+		</Tab.Navigator>
+	) : (
+		<Tab.Navigator
+			screenOptions={({ route }) => ({
+				headerShown: false,
+				tabBarActiveTintColor: 'red',
+				tabBarInactiveTintColor: 'green',
+				tabBarIcon: ({ color, size }) => showIcons(route, color, size),
+			})}
+		>
+			<Tab.Screen
+				name='index'
+				component={IndexStack}
+				options={{ title: 'Inicio', headerShown: false }}
 			/>
 		</Tab.Navigator>
 	);
