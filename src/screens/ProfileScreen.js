@@ -5,17 +5,21 @@ import { useNavigation } from '@react-navigation/native';
 import { getAuth, signOut } from 'firebase/auth';
 import { ProfileInfo } from '../components/account/ProfileInfo';
 import { Loading } from '../components/common/Loading';
+import { ProfileOptions } from '../components/account/ProfileOptions';
 
 export const ProfileScreen = () => {
 	const navigation = useNavigation();
 	const [visibleLoading, setVisibleLoading] = useState(false);
 	const [textLoading, setTextLoading] = useState('');
+	const [reaload, setReaload] = useState(false);
+
+	const onReload = () => setReaload((prevState) => !prevState);
 
 	const cerrarSesion = async () => {
 		try {
 			const auth = getAuth();
 			await signOut(auth);
-			navigation.navigate('indexs', { screen: 'indexS' });
+			navigation.navigate('indexS', { screen: 'indexS' });
 		} catch (error) {
 			console.log(error);
 		}
@@ -28,7 +32,7 @@ export const ProfileScreen = () => {
 				setTextLoading={setTextLoading}
 			/>
 
-			<ProfileOptions />
+			<ProfileOptions onReload={onReload} />
 
 			<Button
 				title='Cerrar sesión'

@@ -3,8 +3,11 @@ import { Icon, ListItem } from 'react-native-elements';
 import { map } from 'lodash';
 import { Modal } from '../common/Modal';
 import { useState } from 'react';
+import { ChangeNameForm } from './ChangeNameForm';
+import { ChangePasswordForm } from './ChangePasswordForm';
+import { ChangeEmailForm } from './ChangeEmailForm';
 
-export const ProfileOptions = () => {
+export const ProfileOptions = ({ onReload }) => {
 	const [showModal, setShowModal] = useState(false);
 	const [conteined, setConteined] = useState(null);
 
@@ -14,11 +17,19 @@ export const ProfileOptions = () => {
 
 	const selectComponent = (key) => {
 		if (key === 'displayName') {
-			setConteined(<Text>displayName</Text>);
+			setConteined(
+				<ChangeNameForm close={onClose} onReload={onReload} />
+			);
 		}
 
 		if (key === 'password') {
-			setConteined(<Text>password</Text>);
+			setConteined(<ChangePasswordForm close={onClose} />);
+		}
+
+		if (key === 'email') {
+			setConteined(
+				<ChangeEmailForm close={onClose} onReload={onReload} />
+			);
 		}
 
 		onClose();
@@ -45,7 +56,7 @@ export const ProfileOptions = () => {
 					/>
 				</ListItem>
 			))}
-			<Modal visible={true} close={onClose}>
+			<Modal visible={showModal} close={onClose}>
 				{conteined}
 			</Modal>
 		</View>
@@ -69,6 +80,14 @@ const getOptionsMenu = (selectComponent) => {
 			colorIcon: '#ccc',
 			nameIconRight: 'chevron-right',
 			onPress: () => selectComponent('password'),
+		},
+		{
+			title: 'Cambiar email',
+			typeIcon: 'material-community',
+			nameIconLeft: 'at',
+			colorIcon: '#ccc',
+			nameIconRight: 'chevron-right',
+			onPress: () => selectComponent('email'),
 		},
 	];
 };
